@@ -136,6 +136,11 @@ For `clawmcp.cloud`, see `docs/domain-clawmcp-cloud.md`.
 Mock training is the default. To connect a real OpenCLAW command, see
 `docs/openclaw-runner.md`.
 
+## Clean OpenClaw Runtime
+
+If a local OpenClaw state is hard to repair, create a separate server-side runtime under
+`/data/openclaw-runtime`. See `docs/openclaw-clean-install.md`.
+
 ## Packaging
 
 Create a deployment zip on D drive:
