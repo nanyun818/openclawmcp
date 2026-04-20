@@ -1,0 +1,22 @@
+[Unit]
+Description=OpenCLAW Lab Agent
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/data/openclaw-lab-agent/app
+Environment=OPENCLAW_LAB_HOME=/data/openclaw-lab-agent
+EnvironmentFile=-/data/openclaw-lab-agent/.env
+ExecStart=/usr/bin/python3 -m openclaw_lab_agent.web_server
+Restart=always
+RestartSec=3
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ReadWritePaths=/data/openclaw-lab-agent
+
+[Install]
+WantedBy=multi-user.target
+

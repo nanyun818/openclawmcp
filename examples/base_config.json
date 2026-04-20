@@ -1,0 +1,28 @@
+{
+  "model": {
+    "name": "openclaw-mini",
+    "parameters": "350M"
+  },
+  "data": {
+    "dataset": "toy-instruction-mixture",
+    "train_tokens": 25000000,
+    "eval_samples": 256
+  },
+  "training": {
+    "learning_rate": 0.0002,
+    "batch_size": 8,
+    "gradient_accumulation_steps": 4,
+    "max_steps": 80,
+    "warmup_steps": 8,
+    "seed": 42
+  },
+  "hardware": {
+    "gpus": 1,
+    "gpu_memory_gb": 24
+  },
+  "safety": {
+    "allow_shell": false,
+    "max_estimated_hours": 2
+  }
+}
+

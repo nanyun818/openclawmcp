@@ -1,0 +1,10 @@
+[project]
+name = "openclaw-lab-agent"
+version = "0.1.0"
+description = "A dependency-free MVP for an OpenCLAW MCP experiment assistant."
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+
