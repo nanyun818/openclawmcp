@@ -141,6 +141,11 @@ Mock training is the default. To connect a real OpenCLAW command, see
 If a local OpenClaw state is hard to repair, create a separate server-side runtime under
 `/data/openclaw-runtime`. See `docs/openclaw-clean-install.md`.
 
+## Hermes Agent Integration
+
+OpenCLAW MCP can track a local or server-side Hermes Agent as an external runtime. See
+`docs/hermes-openclaw-integration.md`.
+
 ## Packaging
 
 Create a deployment zip on D drive:

@@ -8,6 +8,8 @@ from .experiments import compare_runs as compare_runs_core
 from .experiments import create_experiment, get_status, list_experiments as list_experiments_core
 from .experiments import read_metrics as read_metrics_core
 from .experiments import run_training as run_training_core
+from .integrations import check_integration as check_integration_core
+from .integrations import list_integrations as list_integrations_core
 
 
 def list_experiments() -> list[dict[str, Any]]:
@@ -49,6 +51,14 @@ def summarize_failure(run_id: str) -> dict[str, Any]:
     return summarize_failure_core(run_id)
 
 
+def list_runtime_integrations() -> dict[str, Any]:
+    return list_integrations_core()
+
+
+def check_runtime_integration(name: str) -> dict[str, Any]:
+    return check_integration_core(name)
+
+
 TOOL_SCHEMAS = [
     {
         "name": "list_experiments",
@@ -86,5 +96,18 @@ TOOL_SCHEMAS = [
             "required": ["run_id"],
         },
     },
+    {
+        "name": "list_runtime_integrations",
+        "description": "List configured OpenClaw/Hermas runtime integrations and reachability.",
+        "input_schema": {"type": "object", "properties": {}},
+    },
+    {
+        "name": "check_runtime_integration",
+        "description": "Check one runtime integration by name, such as openclaw or hermas.",
+        "input_schema": {
+            "type": "object",
+            "properties": {"name": {"type": "string"}},
+            "required": ["name"],
+        },
+    },
 ]
-

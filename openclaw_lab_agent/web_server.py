@@ -9,6 +9,7 @@ from urllib.parse import parse_qs, urlparse
 
 from .diagnostics import summarize_failure
 from .experiments import compare_runs, create_experiment, get_status, list_experiments, read_metrics, run_training
+from .integrations import check_integration, list_integrations
 
 
 HOST = "127.0.0.1"
@@ -41,7 +42,15 @@ class LabAgentHandler(BaseHTTPRequestHandler):
             self._send_json({"experiments": list_experiments()})
             return
 
+        if parsed.path == "/api/integrations":
+            self._send_json(list_integrations())
+            return
+
         parts = path.split("/")
+        if len(parts) == 3 and parts[:2] == ["api", "integrations"]:
+            self._send_json(check_integration(parts[2]))
+            return
+
         if len(parts) == 3 and parts[:2] == ["api", "experiments"]:
             self._send_json(get_status(parts[2]))
             return
@@ -322,6 +331,18 @@ def index_html() -> str:
       </table>
     </section>
     <section>
+      <h2>运行时集成</h2>
+      <div class="toolbar">
+        <button class="secondary" onclick="loadIntegrations()">检查 OpenClaw / Hermes</button>
+      </div>
+      <table>
+        <thead>
+          <tr><th>名称</th><th>状态</th><th>URL</th><th>命令</th></tr>
+        </thead>
+        <tbody id="integrations"></tbody>
+      </table>
+    </section>
+    <section>
       <h2>输出</h2>
       <pre id="output">等待操作。</pre>
     </section>
@@ -382,6 +403,26 @@ def index_html() -> str:
         setStatus('列表已刷新。');
       } catch (error) {
         if (askTokenOnUnauthorized(error)) return loadExperiments();
+        setStatus(error.message, true);
+      }
+    }
+
+    async function loadIntegrations() {
+      try {
+        const data = await api('/api/integrations');
+        const rows = data.integrations.map(item => `
+          <tr>
+            <td>${item.label}</td>
+            <td>${item.status}</td>
+            <td>${item.url ?? '-'}</td>
+            <td>${item.command ?? '-'}</td>
+          </tr>
+        `).join('');
+        document.getElementById('integrations').innerHTML = rows || '<tr><td colspan="4">还没有配置集成。</td></tr>';
+        show(data);
+        setStatus('运行时集成已检查。');
+      } catch (error) {
+        if (askTokenOnUnauthorized(error)) return loadIntegrations();
         setStatus(error.message, true);
       }
     }
@@ -509,6 +550,7 @@ def index_html() -> str:
     }
 
     loadExperiments();
+    loadIntegrations();
   </script>
 </body>
 </html>

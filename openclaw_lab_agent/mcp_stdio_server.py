@@ -16,6 +16,8 @@ TOOLS: dict[str, Callable[..., Any]] = {
     "read_metrics": mcp_tools.read_metrics,
     "compare_runs": mcp_tools.compare_runs,
     "summarize_failure": mcp_tools.summarize_failure,
+    "list_runtime_integrations": mcp_tools.list_runtime_integrations,
+    "check_runtime_integration": mcp_tools.check_runtime_integration,
 }
 
 
@@ -110,4 +112,3 @@ def _error(request_id: Any, code: int, message: str) -> dict[str, Any]:
 
 if __name__ == "__main__":
     main()
-
